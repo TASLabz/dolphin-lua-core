@@ -77,18 +77,18 @@ namespace Lua
 	void LoadScript(std::string fileName);
 	void TerminateScript(std::string fileName);
 	bool IsScriptRunning(std::string fileName);
-	void UpdateScripts(GCPadStatus* PadStatus);
+	void UpdateScripts(GCPadStatus* PadStatus, int controllerID);
     u32 readPointer(u32 startAddress, u32 offset);
 	u32 normalizePointer(u32 pointer);
     u32 ExecuteMultilevelLoop(lua_State *L);
     bool IsInMEMArea(u32 pointer);
 
-	void iPressButton(const char* button);
-	void iReleaseButton(const char* button);
-	void iSetMainStickX(int xVal);
-	void iSetMainStickY(int yVal);
-	void iSetCStickX(int xVal);
-	void iSetCStickY(int yVal);
+	void iPressButton(const char* button, int controllerID);
+    void iReleaseButton(const char *button, int controllerID);
+    void iSetMainStickX(int xVal, int controllerID);
+    void iSetMainStickY(int yVal, int controllerID);
+    void iSetCStickX(int xVal, int controllerID);
+    void iSetCStickY(int yVal, int controllerID);
 	void iSaveState(bool toSlot, int slotID, std::string fileName);
 	void iLoadState(bool fromSlot, int slotID, std::string fileName);
 	void iCancelCurrentScript();

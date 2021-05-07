@@ -123,7 +123,7 @@ void CSIDevice_GCController::HandleMoviePadStatus(GCPadStatus* PadStatus)
 
 	Movie::CallTAStudioManip(PadStatus); // TAStudio - Added by THC98
 
-	Lua::UpdateScripts(PadStatus);
+	Lua::UpdateScripts(PadStatus, ISIDevice::m_iDeviceNumber);
 
 	Movie::SetPolledDevice();
 	if (NetPlay_GetInput(ISIDevice::m_iDeviceNumber, PadStatus))

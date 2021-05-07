@@ -46,6 +46,8 @@
 //#include "DolphinWX/Main.h"
 //#include "DolphinWX/Frame.h"
 
+static const int ANY_CONTROLLER = -1;
+
 //Lua Functions (C)
 int ReadValue8(lua_State* L)
 {
@@ -318,8 +320,12 @@ int PressButton(lua_State* L)
 		return 0;
 
 	const char* button = lua_tostring(L, 1);
+	int controller = ANY_CONTROLLER;
 
-	Lua::iPressButton(button);
+	if (argc > 1)
+		controller = lua_tointeger(L, 2);
+
+	Lua::iPressButton(button, controller);
 
 	return 0; // number of return values
 }
@@ -335,8 +341,12 @@ int ReleaseButton(lua_State* L)
 		return 0;
 
 	const char* button = lua_tostring(L, 1);
+	int controller = ANY_CONTROLLER;
 
-	Lua::iReleaseButton(button);
+	if (argc > 1)
+		controller = lua_tointeger(L, 2);
+
+	Lua::iReleaseButton(button, controller);
 
 	return 0; // number of return values
 }
@@ -352,8 +362,12 @@ int SetMainStickX(lua_State* L)
 		return 0;
 
 	int xPos = lua_tointeger(L, 1);
+	int controller = ANY_CONTROLLER;
 
-	Lua::iSetMainStickX(xPos);
+	if (argc > 1)
+		controller = lua_tointeger(L, 2);
+
+	Lua::iSetMainStickX(xPos, controller);
 
 	return 0;
 }
@@ -368,8 +382,12 @@ int SetMainStickY(lua_State* L)
 		return 0;
 
 	int yPos = lua_tointeger(L, 1);
+	int controller = ANY_CONTROLLER;
 
-	Lua::iSetMainStickY(yPos);
+	if (argc > 1)
+		controller = lua_tointeger(L, 2);
+
+	Lua::iSetMainStickY(yPos, controller);
 
 	return 0;
 }
@@ -385,8 +403,12 @@ int SetCStickX(lua_State* L)
 		return 0;
 
 	int xPos = lua_tointeger(L, 1);
+	int controller = ANY_CONTROLLER;
 
-	Lua::iSetCStickX(xPos);
+	if (argc > 1)
+		controller = lua_tointeger(L, 2);
+
+	Lua::iSetCStickX(xPos, controller);
 
 	return 0;
 }
@@ -401,8 +423,12 @@ int SetCStickY(lua_State* L)
 		return 0;
 
 	int yPos = lua_tointeger(L, 1);
+	int controller = ANY_CONTROLLER;
 
-	Lua::iSetCStickY(yPos);
+	if (argc > 1)
+		controller = lua_tointeger(L, 2);
+
+	Lua::iSetCStickY(yPos, controller);
 
 	return 0;
 }
@@ -583,6 +609,7 @@ namespace Lua
 	static int currScriptID;
 
 	static GCPadStatus PadLocal;
+    static int currentControllerID;
 
 	const int m_gc_pad_buttons_bitmask[12] = {
 		PAD_BUTTON_DOWN, PAD_BUTTON_UP, PAD_BUTTON_LEFT, PAD_BUTTON_RIGHT, PAD_BUTTON_A, PAD_BUTTON_B,
@@ -599,8 +626,11 @@ namespace Lua
 
 
 	//Dragonbane: Lua Wrapper Functions
-	void iPressButton(const char* button)
+	void iPressButton(const char* button, int controllerID)
 	{
+	    if (controllerID != currentControllerID && controllerID != ANY_CONTROLLER) // Xander: specify controller
+		    return;
+
 		if (!strcmp(button, "A"))
 		{
 			PadLocal.button |= m_gc_pad_buttons_bitmask[4];
@@ -654,8 +684,11 @@ namespace Lua
 			PadLocal.button |= m_gc_pad_buttons_bitmask[3];
 		}		
 	}
-	void iReleaseButton(const char* button)
-	{
+    void iReleaseButton(const char *button, int controllerID)
+    {
+	    if (controllerID != currentControllerID && controllerID != ANY_CONTROLLER)
+		    return;
+
 		if (!strcmp(button, "A"))
 		{
 			PadLocal.button &= ~m_gc_pad_buttons_bitmask[4];
@@ -757,21 +790,25 @@ namespace Lua
 		return pointer;	    
     }
 
-	void iSetMainStickX(int xVal)
-	{
-		PadLocal.stickX = xVal;
+	void iSetMainStickX(int xVal, int controllerID)
+    {
+	    if (controllerID == currentControllerID || controllerID == ANY_CONTROLLER)
+			PadLocal.stickX = xVal;
 	}
-	void iSetMainStickY(int yVal)
+    void iSetMainStickY(int yVal, int controllerID)
 	{
-		PadLocal.stickY = yVal;
+	    if (controllerID == currentControllerID || controllerID == ANY_CONTROLLER)
+			PadLocal.stickY = yVal;
 	}
-	void iSetCStickX(int xVal)
+    void iSetCStickX(int xVal, int controllerID)
 	{
-		PadLocal.substickX = xVal;
+	    if (controllerID == currentControllerID || controllerID == ANY_CONTROLLER)
+			PadLocal.substickX = xVal;
 	}
-	void iSetCStickY(int yVal)
+    void iSetCStickY(int yVal, int controllerID)
 	{
-		PadLocal.substickY = yVal;
+	    if (controllerID == currentControllerID || controllerID == ANY_CONTROLLER)
+			PadLocal.substickY = yVal;
 	}
 	void iSaveState(bool toSlot, int slotID, std::string fileName)
 	{
@@ -988,13 +1025,14 @@ namespace Lua
 
 
 	//Called every input frame (60 times per second in TP)
-	void UpdateScripts(GCPadStatus* PadStatus)
+	void UpdateScripts(GCPadStatus* PadStatus, int controllerID)
 	{
 		if (!Core::IsRunningAndStarted())
 			return;
 
 		//Update Local Pad
 		PadLocal = *PadStatus;
+	    currentControllerID = controllerID;
 
 		//Iterate through all the loaded LUA Scripts
 		int n = 0;
