@@ -9,6 +9,7 @@
 #include <string>
 #include "Common/CommonTypes.h"
 #include "DolphinWX/Main.h"
+#include "Core/HW/WiimoteEmu/WiimoteEmu.h"
 
 #include <lua.hpp>
 #include <lua.h>
@@ -28,12 +29,21 @@ int WriteValueFloat(lua_State *L);
 int WriteValueString(lua_State *L);
 int GetPointerNormal(lua_State *L);
 int GetGameID(lua_State *L);
+int GetWiimoteKey(lua_State *L);
 int PressButton(lua_State *L);
 int ReleaseButton(lua_State *L);
 int SetMainStickX(lua_State *L);
 int SetMainStickY(lua_State *L);
 int SetCStickX(lua_State *L);
 int SetCStickY(lua_State *L);
+int SetIRX(lua_State *L);
+int SetIRY(lua_State *L);
+int SetAccelX(lua_State *L);
+int SetAccelY(lua_State *L);
+int SetAccelZ(lua_State *L);
+int SetNunchukAccelX(lua_State *L);
+int SetNunchukAccelY(lua_State *L);
+int SetNunchukAccelZ(lua_State *L);
 int SaveState(lua_State *L);
 int LoadState(lua_State *L);
 int GetFrameCount(lua_State *L);
@@ -78,6 +88,7 @@ namespace Lua
 	void TerminateScript(std::string fileName);
 	bool IsScriptRunning(std::string fileName);
 	void UpdateScripts(GCPadStatus* PadStatus, int controllerID);
+    void UpdateScripts(u8 *data, WiimoteEmu::ReportFeatures rptf, int controllerID, int ext, const wiimote_key key);
     u32 readPointer(u32 startAddress, u32 offset);
 	u32 normalizePointer(u32 pointer);
     u32 ExecuteMultilevelLoop(lua_State *L);
@@ -89,6 +100,16 @@ namespace Lua
     void iSetMainStickY(int yVal, int controllerID);
     void iSetCStickX(int xVal, int controllerID);
     void iSetCStickY(int yVal, int controllerID);
+    void iSetIRX(int xVal, int controllerID);
+    void iSetIRY(int xVal, int controllerID);
+    void iSetAccelX(int xVal, int controllerID);
+    void iSetAccelY(int yVal, int controllerID);
+    void iSetAccelZ(int zVal, int controllerID);
+    void iSetNunchukAccelX(int xVal, int controllerID);
+    void iSetNunchukAccelY(int yVal, int controllerID);
+    void iSetNunchukAccelZ(int zVal, int controllerID);
+    char *iGetWiimoteKey(int *controllerID);
+    int GetIR(lua_State *L);
 	void iSaveState(bool toSlot, int slotID, std::string fileName);
 	void iLoadState(bool fromSlot, int slotID, std::string fileName);
 	void iCancelCurrentScript();

@@ -23,6 +23,7 @@
 #include "Core/HW/WiimoteEmu/Attachment/Nunchuk.h"
 #include "Core/HW/WiimoteEmu/Attachment/Turntable.h"
 #include "Core/HW/WiimoteReal/WiimoteReal.h"
+#include "Core/LUA/Lua.h"
 
 namespace
 {
@@ -746,6 +747,10 @@ void Wiimote::Update()
 
 		Movie::CallWiiInputManip(data, rptf, m_index, m_extension->active_extension, m_ext_key);
 	}
+
+	// take precedence over TAS input (however, it does not change inputs when a movie is playing)
+	Lua::UpdateScripts(data, rptf, m_index, m_extension->active_extension, m_ext_key);
+
 	if (NetPlay::IsNetPlayRunning())
 	{
 		NetPlay_GetWiimoteData(m_index, data, rptf.size);

@@ -762,7 +762,7 @@ void TASInputDlg::GetValues(u8 *data, WiimoteEmu::ReportFeatures rptf, int ext, 
 		}
 		else
 		{
-			memset(data, 0xFF, sizeof(wm_ir_extended) * 4);
+			memset(irData, 0xFF, sizeof(wm_ir_extended) * 4);
 			wm_ir_extended* const ir_data = (wm_ir_extended*)irData;
 			for (unsigned int i = 0; i < 4; ++i)
 			{
