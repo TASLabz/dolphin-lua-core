@@ -1215,21 +1215,59 @@ namespace Lua
 	    return key;
 	}
 	int GetIR(lua_State *L) {
-	    int x = -1;
-	    int y = -1;
 	    int controller = ANY_CONTROLLER;
 	    if (lua_gettop(L) > 0)
 		    controller = lua_tointeger(L, 1);
 		if (!UpdateGCC && (controller == currentControllerID || controller == ANY_CONTROLLER))
 		{
 		    u8 *irdata = WiimoteData + WiimoteRptf.ir;
-		    x = irdata[0] + ((irdata[2] & 0x30) << 4); // read first x coord
-		    y = irdata[1] + ((irdata[2] & 0xC0) << 2);
+		    int x = irdata[0] + ((irdata[2] & 0x30) << 4); // read first x coord
+		    int y = irdata[1] + ((irdata[2] & 0xC0) << 2);
+		    lua_pushinteger(L, x);
+		    lua_pushinteger(L, y);
+		    return 2;
 		}
-	    lua_pushinteger(L, x);
-	    lua_pushinteger(L, y);
-		return 2;
+	    return 0;
 	}
+    int GetAccel(lua_State *L)
+    {
+	    int controller = ANY_CONTROLLER;
+	    if (lua_gettop(L) > 0)
+		    controller = lua_tointeger(L, 1);
+	    if (!UpdateGCC && (controller == currentControllerID || controller == ANY_CONTROLLER))
+	    {
+		    wm_accel *dt = (wm_accel *)(WiimoteData + WiimoteRptf.accel);
+		    wm_buttons *but = (wm_buttons *)(WiimoteData + WiimoteRptf.core);
+		    int x = (dt->x << 2) + but->acc_x_lsb;
+		    int y = (dt->y << 2) + (but->acc_y_lsb << 1);
+		    int z = (dt->z << 2) + (but->acc_z_lsb << 1);
+		    lua_pushinteger(L, x);
+		    lua_pushinteger(L, y);
+		    lua_pushinteger(L, z);
+		    return 3;
+	    }
+	    return 0;
+    }
+    int GetNunchukAccel(lua_State *L)
+    {
+	    int controller = ANY_CONTROLLER;
+	    if (lua_gettop(L) > 0)
+		    controller = lua_tointeger(L, 1);
+	    if (!UpdateGCC && (controller == currentControllerID || controller == ANY_CONTROLLER) && WiimoteRptf.ext && WiimoteExt == NUNCHUK)
+	    {
+		    wm_nc *nunchuk = (wm_nc *)(WiimoteData + WiimoteRptf.ext);
+			WiimoteDecrypt(WiimoteKey, (u8 *)nunchuk, 0, sizeof(wm_nc));
+			int x = (nunchuk->ax << 2) + nunchuk->bt.acc_x_lsb;
+		    int y = (nunchuk->ay << 2) + nunchuk->bt.acc_y_lsb;
+		    int z = (nunchuk->az << 2) + nunchuk->bt.acc_z_lsb;
+		    WiimoteEncrypt(WiimoteKey, (u8 *)nunchuk, 0, sizeof(wm_nc));
+		    lua_pushinteger(L, x);
+		    lua_pushinteger(L, y);
+		    lua_pushinteger(L, z);
+		    return 3;
+	    }
+	    return 0;
+    }
 	void iSaveState(bool toSlot, int slotID, std::string fileName)
 	{
 		m_stateData.doSave = true;
@@ -1341,9 +1379,11 @@ namespace Lua
 	    lua_register(luaState, "SetAccelX", SetAccelX);
 	    lua_register(luaState, "SetAccelY", SetAccelY);
 	    lua_register(luaState, "SetAccelZ", SetAccelZ);
+	    lua_register(luaState, "GetAccel", Lua::GetAccel);
 	    lua_register(luaState, "SetNunchukAccelX", SetNunchukAccelX);
 	    lua_register(luaState, "SetNunchukAccelY", SetNunchukAccelY);
 	    lua_register(luaState, "SetNunchukAccelZ", SetNunchukAccelZ);
+	    lua_register(luaState, "GetNunchukAccel", Lua::GetNunchukAccel);
 
 		lua_register(luaState, "SaveState", SaveState);
 		lua_register(luaState, "LoadState", LoadState);
