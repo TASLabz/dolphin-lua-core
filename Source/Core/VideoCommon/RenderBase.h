@@ -85,7 +85,7 @@ public:
 
 	static void SetWindowSize(int width, int height);
 
-	static void DrawLuaText(std::string text, int left, int top, u32 color);
+	static void DrawLuaText(std::string text, int left, int top, u32 color, int size);
 
 	// EFB coordinate conversion functions
 
@@ -110,7 +110,7 @@ public:
 	static void SetScreenshot(const std::string& filename);
 	static void DrawDebugText();
 
-	virtual void RenderText(const std::string& text, int left, int top, u32 color) = 0;
+	virtual void RenderText(const std::string& text, int left, int top, u32 color, int size = 11) = 0;
 
 	virtual void ClearScreen(const EFBRectangle& rc, bool colorEnable, bool alphaEnable, bool zEnable, u32 color, u32 z) = 0;
 	virtual void ReinterpretPixelData(unsigned int convtype) = 0;

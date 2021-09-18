@@ -41,6 +41,7 @@
 #include "InputCommon/GCPadStatus.h"
 #include "VideoCommon/Statistics.h"
 #include "VideoCommon/VideoConfig.h"
+#include "VideoCommon/RenderBase.h"
 #include "Core/Host.h"
 
 //#include "DolphinWX/Main.h"
@@ -545,6 +546,23 @@ int SetInfoDisplay(lua_State* L)
 	int argc = lua_gettop(L);	
 	SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;	
 	SConfig::GetInstance().SaveSettings();
+	return 0;
+}
+
+int RenderText(lua_State* L)
+{
+	int argc = lua_gettop(L);
+	if (argc < 5)
+		return 0;
+
+	const char *text = lua_tostring(L, 1);
+	int left = lua_tointeger(L, 2);
+	int top = lua_tointeger(L, 3);
+	u32 color = (u32)lua_tointeger(L, 4) + 0xFF000000; // ??RRGGBB
+	int size = lua_tointeger(L, 5);
+
+	Renderer::DrawLuaText(text, left, top, color, size);
+
 	return 0;
 }
 
@@ -1395,6 +1413,7 @@ namespace Lua
 		lua_register(luaState, "SetScreenText", SetScreenText);
 		lua_register(luaState, "PauseEmulation", PauseEmulation);
 		lua_register(luaState, "SetInfoDisplay", SetInfoDisplay); 
+		lua_register(luaState, "RenderText", RenderText); // Xander: directly control text rendering
 
 		// added by luckytyphlosion
 		lua_register(luaState, "SetFrameAndAudioDump", SetFrameAndAudioDump);

@@ -283,10 +283,10 @@ Renderer::~Renderer()
 	D3D::Close();
 }
 
-void Renderer::RenderText(const std::string& text, int left, int top, u32 color)
+void Renderer::RenderText(const std::string& text, int left, int top, u32 color, int size)
 {
-	D3D::font.DrawTextScaled((float)(left+1), (float)(top+1), 20.f, 0.0f, color & 0xFF000000, text);
-	D3D::font.DrawTextScaled((float)left, (float)top, 20.f, 0.0f, color, text);
+	D3D::font.DrawTextScaled((float)(left+1), (float)(top+1), 20.f * (float)size / 11.f, 0.0f, color & 0xFF000000, text);
+	D3D::font.DrawTextScaled((float)left, (float)top, 20.f * (float)size / 11.f, 0.0f, color, text);
 }
 
 TargetRectangle Renderer::ConvertEFBRectangle(const EFBRectangle& rc)

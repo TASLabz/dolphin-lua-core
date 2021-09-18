@@ -716,7 +716,7 @@ void Renderer::Init()
 	OpenGL_CreateAttributelessVAO();
 }
 
-void Renderer::RenderText(const std::string& text, int left, int top, u32 color)
+void Renderer::RenderText(const std::string& text, int left, int top, u32 color, int size)
 {
 	const int nBackbufferWidth = (int)GLInterface->GetBackBufferWidth();
 	const int nBackbufferHeight = (int)GLInterface->GetBackBufferHeight();
@@ -724,7 +724,7 @@ void Renderer::RenderText(const std::string& text, int left, int top, u32 color)
 	s_raster_font->printMultilineText(text,
 		left * 2.0f / (float)nBackbufferWidth - 1,
 		1 - top * 2.0f / (float)nBackbufferHeight,
-		0, nBackbufferWidth, nBackbufferHeight, color);
+		0, nBackbufferWidth * 11 / size, nBackbufferHeight * 11 / size, color);
 }
 
 TargetRectangle Renderer::ConvertEFBRectangle(const EFBRectangle& rc)

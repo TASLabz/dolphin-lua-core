@@ -24,7 +24,7 @@ public:
 	void SwapColorTexture();
 	void UpdateColorTexture(EfbInterface::yuv422_packed *xfb, u32 fbWidth, u32 fbHeight);
 
-	void RenderText(const std::string& pstr, int left, int top, u32 color) override;
+	void RenderText(const std::string& pstr, int left, int top, u32 color, int size = 11) override;
 	u32 AccessEFB(EFBAccessType type, u32 x, u32 y, u32 poke_data) override;
 	void PokeEFB(EFBAccessType type, const EfbPokeData* points, size_t num_points) override {};
 

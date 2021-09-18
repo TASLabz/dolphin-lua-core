@@ -48,7 +48,7 @@ void SWRenderer::Shutdown()
 	UpdateActiveConfig();
 }
 
-void SWRenderer::RenderText(const std::string& pstr, int left, int top, u32 color)
+void SWRenderer::RenderText(const std::string &pstr, int left, int top, u32 color, int size)
 {
 	SWOGLWindow::s_instance->PrintText(pstr, left, top, color);
 }

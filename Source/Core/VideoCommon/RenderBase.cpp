@@ -86,6 +86,18 @@ unsigned int Renderer::efb_scale_numeratorY = 1;
 unsigned int Renderer::efb_scale_denominatorX = 1;
 unsigned int Renderer::efb_scale_denominatorY = 1;
 
+struct LuaTextRequest
+{
+	std::string *text;
+	int left;
+	int top;
+	u32 color;
+	int size;
+	void *next;
+};
+
+struct LuaTextRequest *LuaTextQueue = nullptr;
+
 static float AspectToWidescreen(float aspect)
 {
 	return aspect * ((16.0f / 9.0f) / (4.0f / 3.0f));
@@ -455,11 +467,30 @@ void Renderer::DrawDebugText()
 	{
 		g_renderer->RenderText("PLAYBACK", 20, 14, 0xFF00FF00);
 	}
+
+	struct LuaTextRequest *ltr = LuaTextQueue;
+	struct LuaTextRequest *old = nullptr;
+	while (ltr != nullptr)
+	{
+		g_renderer->RenderText(*ltr->text, ltr->left, ltr->top, ltr->color, ltr->size);
+		old = ltr;
+		ltr = (struct LuaTextRequest *)ltr->next;
+		delete old->text;
+		free(old);
+	}
+	LuaTextQueue = nullptr;
 }
 
-void Renderer::DrawLuaText(std::string text, int left, int top, u32 color)
+void Renderer::DrawLuaText(std::string text, int left, int top, u32 color, int size)
 {
-	g_renderer->RenderText(text, left, top, color);
+	struct LuaTextRequest *ltr = (struct LuaTextRequest *)malloc(sizeof(struct LuaTextRequest));
+	ltr->text = new std::string(text);
+	ltr->left = left;
+	ltr->top = top;
+	ltr->color = color;
+	ltr->size = size;
+	ltr->next = LuaTextQueue; // adds to the front of the queue
+	LuaTextQueue = ltr;
 }
 
 void Renderer::UpdateDrawRectangle(int backbuffer_width, int backbuffer_height)
