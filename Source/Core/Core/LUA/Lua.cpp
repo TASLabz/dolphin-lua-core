@@ -364,6 +364,28 @@ int ReleaseButton(lua_State* L)
 	return 0; // number of return values
 }
 
+static int SetIRBytes(lua_State *L)
+{
+	if (Movie::IsPlayingInput())
+		return 0;
+	
+	int argc = lua_gettop(L);
+
+	if (argc < 1)
+		return 0;
+
+	int controller = lua_tointeger(L, 1);
+
+	int bytes[36] = {0}; // max bytes needed (mode 5)
+
+	for (int i = 2; i <= argc; i++)
+	{
+		bytes[i - 2] = lua_tointeger(L, i);
+	}
+
+	return Lua::iSetIRBytes(bytes, argc - 1, controller);
+}
+
 static int GenericSet(lua_State *L, void (*f)(int, int))
 {
 	if (Movie::IsPlayingInput())
@@ -1070,6 +1092,20 @@ namespace Lua
 		    // JR y
 	    }
 	}
+	int iSetIRBytes(int bytes[], int numBytes, int controllerID)
+	{
+	    if (controllerID != currentControllerID && controllerID != ANY_CONTROLLER)
+		    return 0;
+
+	    int maxBytes = (WiimoteRptf.ext ? WiimoteRptf.ext : WiimoteRptf.size) - WiimoteRptf.ir;
+
+		for (int i = 0; i < maxBytes && i < numBytes; i++)
+	    {
+		    *(WiimoteData + WiimoteRptf.ir + i) = static_cast<u8>(bytes[i]);
+		}
+
+	    return numBytes;
+	}
     static void SetIR(int xVal, int yVal, int controllerID)
 	{
 	    if (controllerID != currentControllerID && controllerID != ANY_CONTROLLER)
@@ -1393,6 +1429,7 @@ namespace Lua
 	    lua_register(luaState, "GetWiimoteKey", GetWiimoteKey); // Xander: wiimote + extension controls
 	    lua_register(luaState, "SetIRX", SetIRX);
 	    lua_register(luaState, "SetIRY", SetIRY);
+	    lua_register(luaState, "SetIRBytes", SetIRBytes);
 	    lua_register(luaState, "GetIR", Lua::GetIR);
 	    lua_register(luaState, "SetAccelX", SetAccelX);
 	    lua_register(luaState, "SetAccelY", SetAccelY);

@@ -100,6 +100,7 @@ namespace Lua
     void iSetMainStickY(int yVal, int controllerID);
     void iSetCStickX(int xVal, int controllerID);
     void iSetCStickY(int yVal, int controllerID);
+    int iSetIRBytes(int bytes[], int numBytes, int controllerID);
     void iSetIRX(int xVal, int controllerID);
     void iSetIRY(int xVal, int controllerID);
     void iSetAccelX(int xVal, int controllerID);
