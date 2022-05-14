@@ -71,16 +71,16 @@ local function getPlayerPhysicsHolderPointer(Offset)
 end
 Pointers.getPlayerPhysicsHolderPointer = getPlayerPhysicsHolderPointer
 
-local function getPlayerPhysicsPointer(Offset)
+local function getPlayerStatsPointer(Offset)
   local pointer
   if GetGameID() == "RMCP01" then pointer = 0x9C18F8
   elseif GetGameID() == "RMCE01"then pointer = 0x9BD110
   elseif GetGameID() == "RMCJ01" then pointer = 0x9C0958
   elseif GetGameID() == "RMCK01" then pointer = 0x9AFF38
   end
-  return GetPointerNormal(pointer, 0xC, 0x10, Offset, 0x0, 0x8, 0x90, 0x4)
+  return GetPointerNormal(pointer, 0x20, Offset, 0x0, 0x0, 0x14, 0x0)
 end
-Pointers.getPlayerPhysicsPointer = getPlayerPhysicsPointer
+Pointers.getPlayerStatsPointer = getPlayerStatsPointer
 
 local function getPlayerSub10Pointer(Offset)
   local pointer
