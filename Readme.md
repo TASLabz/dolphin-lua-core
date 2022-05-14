@@ -1,4 +1,4 @@
-# Dolphin Lua Core + TAStudio (custom Dolphin build)
+# Dolphin Lua Core (custom Dolphin build)
 
 This project adds Lua support and TAStudio interface in the revision 5.0 of Dolphin Emulator. The Lua API is based on Dragonbane0's Zelda Edition, which can be found [here](https://github.com/dragonbane0/dolphin).
 
@@ -78,17 +78,6 @@ function onStateSaved()
 end
 ```
 
-## TAStudio Interface
-
-### How to use it
-
-* To open the TAStudio interface, go to Movie - TAStudio. Once the game is being played, the inputs grid will be populated.
-* Hint: if you're using the 5.0 version and the inputs are being registered multiple times each frame, select the "Group by VI" option.
-* Savestate before the region you want to modify the inputs.
-* Select the inputs you want to modify in the grid. Use the buttons on the side to manipulate them (Hint: clicking with the right mouse button is a shortcut for "Toggle selected inputs").
-* To manipulate stick inputs, use the TAS Input sticks at the down-right corner of the interface (the Get button gets the selected stick input from the grid, and the Set button sets the selected frame with the TAS Input stick input).
-* Once you want to send the inputs to Dolphin, make sure to check the Read+Write option.
-
 ### Implemented features
 
 * Input read/write in real time.
@@ -99,5 +88,7 @@ end
 * Copy/Paste inputs.
 
 ### TODO
+
+- Completely rewrite this readme
 
 NOTE: If you want to build this version: Use Microsoft Visual Studio 2017 without any upgrades or use Microsoft Visual Studio 2015 Update 2 and Windows 10 SDK 10.0.10586.0
