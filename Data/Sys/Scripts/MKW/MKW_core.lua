@@ -465,8 +465,7 @@ end
 core.exactFinish = exactFinish
 
 local function NormalAccel(spd)
-	base = Pointers.getPlayerSub10Pointer()
-	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
+	local stats = Pointers.getPlayerStatsPointer()
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local p1 = ReadValueFloat(stats, 0x48) -- drift acceleration T1
 	local d0 = ReadValueFloat(stats, 0x40) -- drift acceleration A0
@@ -490,7 +489,7 @@ end
 core.NormalAccel = NormalAccel
 
 local function DriftAccel(spd)
-	base = Pointers.getPlayerSub10Pointer()
+	local stats = Pointers.getPlayerStatsPointer()
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local p1 = ReadValueFloat(stats, 0x48) -- drift acceleration T1
 	local d0 = ReadValueFloat(stats, 0x40) -- drift acceleration A0
@@ -505,14 +504,13 @@ end
 core.DriftAccel = DriftAccel
 
 local function AccelText(spd)
-	base = Pointers.getPlayerSub10Pointer()
-	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
+	local stats = Pointers.getPlayerStatsPointer()
+	local speed = ReadValueFloat(stats, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 end
 core.AccelText = AccelText
 
 local function detectAction()
-	base = Pointers.getPlayerSub10Pointer()
-	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
+	local stats = Pointers.getPlayerStatsPointer()
 	local bspeed = ReadValueFloat(stats, 0x18) -- base speed
 	local maxspeed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x18) -- current max vehicle speed -- from RMCE01.ini
 	local ostat1 = ReadValueFloat(stats, 0x70 + 0x8) -- weak offroad
@@ -574,8 +572,7 @@ end
 core.BoostAccel = BoostAccel
 
 local function AccelRates()
-	base = Pointers.getPlayerSub10Pointer()
-	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
+	local stats = Pointers.getPlayerStatsPointer()
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local maxspeed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x18) -- current max vehicle speed -- from RMCE01.ini
 	local bspeed = ReadValueFloat(stats, 0x18) -- base speed
