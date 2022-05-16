@@ -48,7 +48,11 @@ static u64 _xgetbv_fix(u32 index)
 	__asm__ __volatile__("xgetbv" : "=a"(eax), "=d"(edx) : "c"(index));
 	return ((u64)edx << 32) | eax;
 }
-
+#else
+static u64 _xgetbv_fix(u32 index)
+{
+	return _xgetbv(index);
+}
 #endif // ifndef _WIN32
 
 CPUInfo cpu_info;
