@@ -44,8 +44,7 @@
 #include "VideoCommon/RenderBase.h"
 #include "Core/Host.h"
 
-//#include "DolphinWX/Main.h"
-//#include "DolphinWX/Frame.h"
+#include "DolphinWX/Frame.h"
 
 static const int ANY_CONTROLLER = -1;
 static const int NUNCHUK = 1;
@@ -595,8 +594,11 @@ int SetFrameAndAudioDump(lua_State* L)
 	bool enableDump = (lua_toboolean(L, 1) != 0);
 	SConfig::GetInstance().m_DumpFrames = enableDump;
 	SConfig::GetInstance().m_DumpAudio = enableDump;
-	//main_frame->GetMenuBar()->FindItem(IDM_TOGGLE_DUMP_FRAMES)->Check(enableDump);
-	//main_frame->GetMenuBar()->FindItem(IDM_TOGGLE_DUMP_AUDIO)->Check(enableDump);    
+
+	// Update UI menu checkboxes
+	wxGetApp().GetCFrame()->GetMenuBar()->FindItem(IDM_TOGGLE_DUMP_FRAMES)->Check(enableDump);
+	wxGetApp().GetCFrame()->GetMenuBar()->FindItem(IDM_TOGGLE_DUMP_AUDIO)->Check(enableDump);
+
 	SConfig::GetInstance().SaveSettings();
 
 	return 0;

@@ -43,6 +43,8 @@ SetScreenText(message as String) //Displays Text on Screen
 RenderText(text, start_x, start_y, colour, size) // Displays custom text on screen. (0,0) is the top left. Colour is the hex code 0xRRGGBB. The regular size is 11.
 
 CancelScript() //Cancels the script
+
+SetFrameAndAudioDump(enable as Boolean) // enables or disables frame and audio dumping
 ```
 
 For the following input/controller functions:
