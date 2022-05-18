@@ -135,7 +135,7 @@ end
 core.getVehicle = getVehicle
 
 local function getPos()
-  local address = Pointers.getPositionPointer(0x0) -- 0x0 first player in the array, to get the most accurate, read playerindex first
+  local address = Pointers.getPlayerPhysicsPointer(0x0) -- 0x0 first player in the array, to get the most accurate, read playerindex first
   if address == 0 then
     return {X = 0, Y = 0, Z = 0}
   end
@@ -144,7 +144,7 @@ end
 core.getPos = getPos
 
 local function getPosGhost()
-  local address = Pointers.getPositionPointer(0x4)
+  local address = Pointers.getPlayerPhysicsPointer(0x4)
   if address == 0 then
     return {X = 0, Y = 0, Z = 0}
   end
@@ -153,7 +153,7 @@ end
 core.getPosGhost = getPosGhost
 
 local function getPrevPos()
-  local address = Pointers.getPrevPositionPointer(0x0)
+  local address = Pointers.getPlayerPhysicsHolderPointer(0x0)
   if address == 0 then
     return {X = 0, Y = 0, Z = 0}
   end
@@ -162,7 +162,7 @@ end
 core.getPrevPos = getPrevPos
 
 local function getPrevPosGhost()
-  local address = Pointers.getPrevPositionPointer(0x4)
+  local address = Pointers.getPlayerPhysicsHolderPointer(0x4)
   if address == 0 then
     return {X = 0, Y = 0, Z = 0}
   end
@@ -193,7 +193,7 @@ end
 core.getSpdGhost = getSpdGhost
 
 local function getInput()
-  local address = Pointers.getInputPointer(0x0) -- change this to 0x4 for ghost
+  local address = Pointers.getInputPointer(0x0)
   local offset = 0x8 -- too lazy to adjust the values beneath...
 
   if address == 0 then return {ABLR = 0, X = 0, Y = 0, DPAD = 0}
@@ -205,6 +205,20 @@ local function getInput()
  end
 end
 core.getInput = getInput
+
+local function getInputGhost()
+  local address = Pointers.getInputPointer(0x4)
+  local offset = 0x8 -- too lazy to adjust the values beneath...
+
+  if address == 0 then return {ABLR = 0, X = 0, Y = 0, DPAD = 0}
+  else return {
+   ABLR = ReadValue8(address + offset + 0x1),
+   X = ReadValue8(address + offset + 0xC),
+   Y = ReadValue8(address + offset + 0xD),
+   DPAD = ReadValue8(address + offset + 0xF)}
+ end
+end
+core.getInputGhost = getInputGhost
 
 local function floatHack(intVal)
   return string.unpack("f", string.pack("I4", intVal))
@@ -260,7 +274,7 @@ core.math_atan2 = math_atan2
 
 function getQuaternion()
   local offset2 = 0xF0
-  local address2 = Pointers.getPositionPointer(0x0)
+  local address2 = Pointers.getPlayerPhysicsPointer(0x0)
   if(address2 == 0) then
     return {X = 0, Y = 0, Z = 0, W = 0}
   end
@@ -302,7 +316,7 @@ end
 core.calculateEuler = calculateEuler
 
 local function isSinglePlayer()
-  local address = Pointers.getPositionPointer(0x4)
+  local address = Pointers.getPlayerPhysicsPointer(0x4)
   if address == 0 then return true
   else return false
   end
@@ -465,7 +479,7 @@ end
 core.exactFinish = exactFinish
 
 local function NormalAccel(spd)
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local p1 = ReadValueFloat(stats, 0x48) -- drift acceleration T1
@@ -490,7 +504,7 @@ end
 core.NormalAccel = NormalAccel
 
 local function DriftAccel(spd)
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local p1 = ReadValueFloat(stats, 0x48) -- drift acceleration T1
 	local d0 = ReadValueFloat(stats, 0x40) -- drift acceleration A0
@@ -505,13 +519,13 @@ end
 core.DriftAccel = DriftAccel
 
 local function AccelText(spd)
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 end
 core.AccelText = AccelText
 
 local function detectAction()
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
 	local bspeed = ReadValueFloat(stats, 0x18) -- base speed
 	local maxspeed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x18) -- current max vehicle speed -- from RMCE01.ini
@@ -574,7 +588,7 @@ end
 core.BoostAccel = BoostAccel
 
 local function AccelRates()
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local maxspeed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x18) -- current max vehicle speed -- from RMCE01.ini
