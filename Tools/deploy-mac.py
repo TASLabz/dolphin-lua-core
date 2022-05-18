@@ -7,7 +7,6 @@ import re
 import shutil
 import subprocess
 
-qtPath = None
 verbose = False
 
 def splitPath(path):
@@ -32,10 +31,6 @@ def findFramework(path):
 		child.append(path.pop())
 	child.reverse()
 	return path, child
-
-def findQtPath(path):
-	parent, child = findFramework(splitPath(path))
-	return joinPath(parent[:-2])
 
 def makedirs(path):
 	split = splitPath(path)
@@ -104,10 +99,6 @@ def updateMachO(bin, execPath, root):
 			shutil.copy2(oldPath, newPath)
 			os.chmod(newPath, 0o644)
 		toUpdate.append((newPath, oldExecPath, newExecPath))
-		if not qtPath and 'Qt' in oldPath:
-			qtPath = findQtPath(oldPath)
-			if verbose:
-				print('Found Qt path at {}.'.format(qtPath))
 	args = [installNameTool]
 	for path, oldExecPath, newExecPath in toUpdate:
 		if path != bin:
@@ -127,7 +118,6 @@ if __name__ == '__main__':
 	parser.add_argument('-R', '--root', metavar='ROOT', default='/', help='root directory to search')
 	parser.add_argument('-I', '--install-name-tool', metavar='INSTALL_NAME_TOOL', default='install_name_tool', help='path to install_name_tool')
 	parser.add_argument('-O', '--otool', metavar='OTOOL', default='otool', help='path to otool')
-	parser.add_argument('-p', '--qt-plugins', metavar='PLUGINS', default='', help='Qt plugins to include (comma-separated)')
 	parser.add_argument('-v', '--verbose', action='store_true', default=False, help='output more information')
 	parser.add_argument('bundle', help='application bundle to deploy')
 	args = parser.parse_args()
@@ -147,22 +137,3 @@ if __name__ == '__main__':
 			continue
 		fullPath = os.path.join(args.bundle, 'Contents/MacOS/', executable)
 		updateMachO(fullPath, splitPath(os.path.join(args.bundle, 'Contents/MacOS')), splitPath(args.root))
-	if args.qt_plugins:
-		try:
-			shutil.rmtree(os.path.join(args.bundle, 'Contents/PlugIns/'))
-		except OSError as e:
-			if e.errno != errno.ENOENT:
-				raise
-		makedirs(os.path.join(args.bundle, 'Contents/PlugIns'))
-		makedirs(os.path.join(args.bundle, 'Contents/Resources'))
-		with open(os.path.join(args.bundle, 'Contents/Resources/qt.conf'), 'w') as conf:
-			conf.write('[Paths]\nPlugins = PlugIns\n')
-		plugins = args.qt_plugins.split(',')
-		for plugin in plugins:
-			plugin = plugin.strip()
-			kind, plug = os.path.split(plugin)
-			newDir = os.path.join(args.bundle, 'Contents/PlugIns/', kind)
-			makedirs(newDir)
-			newPath = os.path.join(newDir, plug)
-			shutil.copy2(os.path.join(qtPath, 'plugins', plugin), newPath)
-			updateMachO(newPath, splitPath(os.path.join(args.bundle, 'Contents/MacOS')), splitPath(args.root))
