@@ -101,6 +101,12 @@ local function getPlayerHitboxes(playerIdx)
 end
 Pointers.getPlayerHitboxes = getPlayerHitboxes
 
+local function getPlayerGpStats(playerIdx)
+  playerIdx = playerIdx or 0
+  return GetPointerNormal(getPlayerParams(playerIdx), 0x34, 0x0)
+end
+Pointers.getPlayerGpStats = getPlayerGpStats
+
 local function getKartBody(playerIdx)
   playerIdx = playerIdx or 0
   return GetPointerNormal(getPlayer(playerIdx), 0x0, 0x8, 0x0)
@@ -125,17 +131,15 @@ local function getCollisionGroup(playerIdx)
 end
 Pointers.getCollisionGroup = getCollisionGroup
 
-local function getKartSus(playerIdx, wheelIdx)
+local function getKartSus(playerIdx)
   playerIdx = playerIdx or 0
-  wheelIdx = wheelIdx or 0
-  return GetPointerNormal(getPlayer(playerIdx), 0x0, 0xC, wheelIdx * 0x4, 0x0)
+  return GetPointerNormal(getPlayer(playerIdx), 0x0, 0xC, 0x0)
 end
 Pointers.getKartSus = getKartSus
 
-local function getKartTire(playerIdx, wheelIdx)
+local function getKartTire(playerIdx)
   playerIdx = playerIdx or 0
-  wheelIdx = wheelIdx or 0
-  return GetPointerNormal(getPlayer(playerIdx), 0x0, 0x10, wheelIdx * 0x4, 0x0)
+  return GetPointerNormal(getPlayer(playerIdx), 0x0, 0x10, 0x0)
 end
 Pointers.getKartTire = getKartTire
 
