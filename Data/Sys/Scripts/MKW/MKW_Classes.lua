@@ -665,6 +665,10 @@ end
 --]]
 local function createPlayer(playerIdx)
     local Player = {}
+    local wheel0 = {}
+    local wheel1 = {}
+    local wheel2 = {}
+    local wheel3 = {}
 
     -- PlayerSub derivations
     Player.PlayerSub = createPlayerSub(playerIdx)
@@ -688,14 +692,19 @@ local function createPlayer(playerIdx)
     Player.PlayerPhysics = createPlayerPhysics(playerIdx)
     Player.CollisionGroup = createCollisionGroup(playerIdx)
 
-    Player.wheel0.KartSusPhysics = createKartSusPhysics(playerIdx, 0)
-    Player.wheel0.WheelPhysics = createWheelPhysics(playerIdx, 0)
-    Player.wheel1.KartSusPhysics = createKartSusPhysics(playerIdx, 1)
-    Player.wheel1.WheelPhysics = createWheelPhysics(playerIdx, 1)
-    Player.wheel2.KartSusPhysics = createKartSusPhysics(playerIdx, 2)
-    Player.wheel2.WheelPhysics = createWheelPhysics(playerIdx, 2)
-    Player.wheel3.KartSusPhysics = createKartSusPhysics(playerIdx, 3)
-    Player.wheel3.WheelPhysics = createWheelPhysics(playerIdx, 3)
+    wheel0.KartSusPhysics = createKartSusPhysics(playerIdx, 0)
+    wheel0.WheelPhysics = createWheelPhysics(playerIdx, 0)
+    wheel1.KartSusPhysics = createKartSusPhysics(playerIdx, 1)
+    wheel1.WheelPhysics = createWheelPhysics(playerIdx, 1)
+    wheel2.KartSusPhysics = createKartSusPhysics(playerIdx, 2)
+    wheel2.WheelPhysics = createWheelPhysics(playerIdx, 2)
+    wheel3.KartSusPhysics = createKartSusPhysics(playerIdx, 3)
+    wheel3.WheelPhysics = createWheelPhysics(playerIdx, 3)
+
+    Player.wheel0 = wheel0
+    Player.wheel1 = wheel1
+    Player.wheel2 = wheel2
+    Player.wheel3 = wheel3
 end
 if (hasGhost()) then
     classes.Player = createPlayer(0)
