@@ -739,6 +739,7 @@ end
 
 local function createRacedataSettings(scenarioIdx)
     local RacedataSettings = {}
+    local hudPlayers = {}
     local ptr = pointers.getRacedataSettings(scenarioIdx)
 
     RacedataSettings.courseId = ReadValue32(ptr, 0x0)
@@ -748,10 +749,11 @@ local function createRacedataSettings(scenarioIdx)
     RacedataSettings.battleType = ReadValue32(ptr, 0x10)
     RacedataSettings.cpuMode = ReadValue32(ptr, 0x14)
     RacedataSettings.itemMode = ReadValue32(ptr, 0x18)
-    RacedataSettings.hudPlayers.i0 = ReadValue8(ptr, 0x1C)
-    RacedataSettings.hudPlayers.i1 = ReadValue8(ptr, 0x1D)
-    RacedataSettings.hudPlayers.i2 = ReadValue8(ptr, 0x1E)
-    RacedataSettings.hudPlayers.i3 = ReadValue8(ptr, 0x1F)
+    hudPlayers.i0 = ReadValue8(ptr, 0x1C)
+    hudPlayers.i1 = ReadValue8(ptr, 0x1D)
+    hudPlayers.i2 = ReadValue8(ptr, 0x1E)
+    hudPlayers.i3 = ReadValue8(ptr, 0x1F)
+    RacedataSettings.hudPlayers = hudPlayers
     RacedataSettings.cupId = ReadValue32(ptr, 0x20)
     RacedataSettings.raceNumber = ReadValue8(ptr, 0x24)
     RacedataSettings.lapCount = ReadValue8(ptr, 0x25)
