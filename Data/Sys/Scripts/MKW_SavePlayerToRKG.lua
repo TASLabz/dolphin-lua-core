@@ -18,7 +18,7 @@ function onScriptStart()
 	
 	local input_list = TTK_Lib.readFullDecodedRKGData(TTK_Lib.PlayerTypeEnum.player)
 	if (input_list == nil) then
-		MsgBox("The Script can't be used after the race ended")
+		MsgBox("The script can't be used if you're not in a race!")
 	else
 		local trackID = ReadValue32(pointers.getRaceDataPointer(), 0xB68)
 		local vehicleID = ReadValue32(pointers.getRaceDataPointer(), 0x30)
@@ -26,7 +26,7 @@ function onScriptStart()
 		local driftID = ReadValue16(pointers.getInputDataPointer(), 0xC4)
 		
 		if (csv_handler.writeCSV(config.textFilePath.player, input_list) == 1) then
-			error(config.textFilePath.player .. " is currently locked by another program, make sure to close it there first.", 0)
+			error(config.textFilePath.player .. " is currently locked by another program, so make sure to close it there first.", 0)
 		end
 		
 		

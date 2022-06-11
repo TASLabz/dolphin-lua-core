@@ -1,6 +1,5 @@
--- general TAS Toolkit
--- used to do inputs of yourself and your ghost simultaneously
-
+-- General TAS Toolkit
+-- This script plays back the inputs located in "MKW_Player_Inputs.csv" and "MKW_Ghost_Inputs.csv".
 
 package.path = GetScriptsDir() .. "/MKW/MKW_core.lua"
 local core = require("MKW_core")
@@ -41,7 +40,7 @@ function onScriptStart()
 
 	MsgBox(string.format("%s, %s", tostring(runner_loaded), tostring(ghost_loaded)))
 
-	if(ghost_loaded) then
+	if (ghost_loaded) then
 		ghost_core.writeInputsIntoRKG(input_ghost)
 	end
 end
@@ -53,7 +52,7 @@ end
 function onScriptUpdate()
 	local currentFrame = core.getFrameOfInput() + 1
 
-	if(runner_loaded) then
+	if (runner_loaded) then
 		if containsFrame(input_runner, currentFrame) then
 			TTK_Lib.runInput(input_runner[currentFrame])
 		end
@@ -80,7 +79,7 @@ function onStateLoaded()
 	if (core.isSinglePlayer()) then
 		ghost_loaded = false
 	end
-	if(ghost_loaded) then
+	if (ghost_loaded) then
 		ghost_core.writeInputsIntoRKG(input_ghost)
 	end
 	
