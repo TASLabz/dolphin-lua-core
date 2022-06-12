@@ -7,7 +7,7 @@ local Pointers = require("MKW_Pointers")
 local ghost_core = {}
 
 local function getGhostAddressBase()
-	local raceData = Pointers.getRaceData2Pointer(0x4)
+	local raceData = Pointers.getRaceInfoPointer(0x4)
 	local address = ReadValue32(raceData, 0x48, 0x4)
 	
 	local offsetFaceButton = 0x94
@@ -49,7 +49,7 @@ end
 ghost_core.getGhostAddresses = getGhostAddresses
 
 local function getInputStorageAddresses()
-	local raceData = Pointers.getRaceData2Pointer(0x0)
+	local raceData = Pointers.getRaceInfoPointer(0x0)
 	
 	local addressF = GetPointerNormal(raceData, 0x48, 0xE8, 0x2C)
 	local addressD = addressF + 0x276C
