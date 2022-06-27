@@ -6,178 +6,39 @@ local Pointers = require("MKW_Pointers")
 package.path = GetScriptsDir() .. "MKW/Math_core.lua"
 local math_core = require("Math_core")
 
-local function getCourseSlot()
-  local address = Pointers.getRaceDataPointer()
-  if ReadValue32(address, 0xb68) == 0 then return "MC"
-  elseif ReadValue32(address, 0xb68) == 1 then return "MMM"
-  elseif ReadValue32(address, 0xb68) == 2 then return "MG"
-  elseif ReadValue32(address, 0xb68) == 3 then return "GV"
-  elseif ReadValue32(address, 0xb68) == 4 then return "TF"
-  elseif ReadValue32(address, 0xb68) == 5 then return "CM"
-  elseif ReadValue32(address, 0xb68) == 6 then return "DKS"
-  elseif ReadValue32(address, 0xb68) == 7 then return "WGM"
-  elseif ReadValue32(address, 0xb68) == 8 then return "LC"
-  elseif ReadValue32(address, 0xb68) == 9 then return "DC"
-  elseif ReadValue32(address, 0xb68) == 10 then return "MH"
-  elseif ReadValue32(address, 0xb68) == 11 then return "MT"
-  elseif ReadValue32(address, 0xb68) == 12 then return "BC"
-  elseif ReadValue32(address, 0xb68) == 13 then return "RR"
-  elseif ReadValue32(address, 0xb68) == 14 then return "DDR"
-  elseif ReadValue32(address, 0xb68) == 15 then return "KC"
-  elseif ReadValue32(address, 0xb68) == 16 then return "rPB"
-  elseif ReadValue32(address, 0xb68) == 17 then return "rMC"
-  elseif ReadValue32(address, 0xb68) == 18 then return "rWS"
-  elseif ReadValue32(address, 0xb68) == 19 then return "rDKM"
-  elseif ReadValue32(address, 0xb68) == 20 then return "rYF"
-  elseif ReadValue32(address, 0xb68) == 21 then return "rDS"
-  elseif ReadValue32(address, 0xb68) == 22 then return "rPG"
-  elseif ReadValue32(address, 0xb68) == 23 then return "rDS"
-  elseif ReadValue32(address, 0xb68) == 24 then return "rMC3"
-  elseif ReadValue32(address, 0xb68) == 25 then return "rGV2"
-  elseif ReadValue32(address, 0xb68) == 26 then return "rMR"
-  elseif ReadValue32(address, 0xb68) == 27 then return "rSL"
-  elseif ReadValue32(address, 0xb68) == 28 then return "rBC"
-  elseif ReadValue32(address, 0xb68) == 29 then return "rDKJP"
-  elseif ReadValue32(address, 0xb68) == 30 then return "rBC3"
-  elseif ReadValue32(address, 0xb68) == 31 then return "rSGB"
-  end
-end
-core.getCourseSlot = getCourseSlot
-
-local function getCharacter()
-  local address = Pointers.getRaceDataPointer()
-  if ReadValue32(address, 0x34) == 0 then return "Mario"
-  elseif ReadValue32(address, 0x34) == 1 then return "Baby Peach"
-  elseif ReadValue32(address, 0x34) == 2 then return "Waluigi"
-  elseif ReadValue32(address, 0x34) == 3 then return "Bowser"
-  elseif ReadValue32(address, 0x34) == 4 then return "Baby Daisy"
-  elseif ReadValue32(address, 0x34) == 5 then return "Dry Bones"
-  elseif ReadValue32(address, 0x34) == 6 then return "Baby Mario"
-  elseif ReadValue32(address, 0x34) == 7 then return "Luigi"
-  elseif ReadValue32(address, 0x34) == 8 then return "Toad"
-  elseif ReadValue32(address, 0x34) == 9 then return "Donkey Kong"
-  elseif ReadValue32(address, 0x34) == 10 then return "Yoshi"
-  elseif ReadValue32(address, 0x34) == 11 then return "Wario"
-  elseif ReadValue32(address, 0x34) == 12 then return "Baby Luigi"
-  elseif ReadValue32(address, 0x34) == 13 then return "Toadette"
-  elseif ReadValue32(address, 0x34) == 14 then return "Koopa Troopa"
-  elseif ReadValue32(address, 0x34) == 15 then return "Daisy"
-  elseif ReadValue32(address, 0x34) == 16 then return "Peach"
-  elseif ReadValue32(address, 0x34) == 17 then return "Birdo"
-  elseif ReadValue32(address, 0x34) == 18 then return "Diddy Kong"
-  elseif ReadValue32(address, 0x34) == 19 then return "King Boo"
-  elseif ReadValue32(address, 0x34) == 20 then return "Bowser Jr."
-  elseif ReadValue32(address, 0x34) == 21 then return "Dry Bowser"
-  elseif ReadValue32(address, 0x34) == 22 then return "Funky Kong"
-  elseif ReadValue32(address, 0x34) == 23 then return "Rosalina"
-  elseif ReadValue32(address, 0x34) == 24 then return "Mii Outfit A (M | Light)"
-  elseif ReadValue32(address, 0x34) == 25 then return "Mii Outfit A (F | Light)"
-  elseif ReadValue32(address, 0x34) == 26 then return "Mii Outfit B (M | Light)"
-  elseif ReadValue32(address, 0x34) == 27 then return "Mii Outfit B (F | Light)"
-  elseif ReadValue32(address, 0x34) == 28 then return "Mii Outfit C (M | Light)"
-  elseif ReadValue32(address, 0x34) == 29 then return "Mii Outfit C (F | Light)"
-  elseif ReadValue32(address, 0x34) == 30 then return "Mii Outfit A (M | Medium)"
-  elseif ReadValue32(address, 0x34) == 31 then return "Mii Outfit A (F | Medium)"
-  elseif ReadValue32(address, 0x34) == 32 then return "Mii Outfit B (M | Medium)"
-  elseif ReadValue32(address, 0x34) == 33 then return "Mii Outfit B (F | Medium)"
-  elseif ReadValue32(address, 0x34) == 34 then return "Mii Outfit C (M | Medium)"
-  elseif ReadValue32(address, 0x34) == 35 then return "Mii Outfit C (F | Medium)"
-  elseif ReadValue32(address, 0x34) == 36 then return "Mii Outfit A (M | Heavy)"
-  elseif ReadValue32(address, 0x34) == 37 then return "Mii Outfit A (F | Heavy)"
-  elseif ReadValue32(address, 0x34) == 38 then return "Mii Outfit B (M | Heavy)"
-  elseif ReadValue32(address, 0x34) == 39 then return "Mii Outfit B (F | Heavy)"
-  elseif ReadValue32(address, 0x34) == 40 then return "Mii Outfit C (M | Heavy)"
-  elseif ReadValue32(address, 0x34) == 41 then return "Mii Outfit C (F | Heavy)"
-  end
-end
-core.getCharacter = getCharacter
-
-local function getVehicle()
-  local address = Pointers.getRaceDataPointer()
-  if ReadValue32(address, 0x30) == 0 then return "Standard Kart S"
-  elseif ReadValue32(address, 0x30) == 1 then return "Standard Kart M"
-  elseif ReadValue32(address, 0x30) == 2 then return "Standard Kart L"
-  elseif ReadValue32(address, 0x30) == 3 then return "Booster Seat"
-  elseif ReadValue32(address, 0x30) == 4 then return "Classic Dragster"
-  elseif ReadValue32(address, 0x30) == 5 then return "Offroader"
-  elseif ReadValue32(address, 0x30) == 6 then return "Mini Beast"
-  elseif ReadValue32(address, 0x30) == 7 then return "Wild Wing"
-  elseif ReadValue32(address, 0x30) == 8 then return "Flame Flyer"
-  elseif ReadValue32(address, 0x30) == 9 then return "Cheep Charger"
-  elseif ReadValue32(address, 0x30) == 10 then return "Super Blooper"
-  elseif ReadValue32(address, 0x30) == 11 then return "Piranha Prowler"
-  elseif ReadValue32(address, 0x30) == 12 then return "Tiny Titan"
-  elseif ReadValue32(address, 0x30) == 13 then return "Daytripper"
-  elseif ReadValue32(address, 0x30) == 14 then return "Jetsetter"
-  elseif ReadValue32(address, 0x30) == 15 then return "Blue Falcon"
-  elseif ReadValue32(address, 0x30) == 16 then return "Sprinter"
-  elseif ReadValue32(address, 0x30) == 17 then return "Honeycoupe"
-  elseif ReadValue32(address, 0x30) == 18 then return "Standard Bike S"
-  elseif ReadValue32(address, 0x30) == 19 then return "Standard Bike M"
-  elseif ReadValue32(address, 0x30) == 20 then return "Standard Bike L"
-  elseif ReadValue32(address, 0x30) == 21 then return "Bullet Bike"
-  elseif ReadValue32(address, 0x30) == 22 then return "Mach Bike"
-  elseif ReadValue32(address, 0x30) == 23 then return "Flame Runner"
-  elseif ReadValue32(address, 0x30) == 24 then return "Bit Bike"
-  elseif ReadValue32(address, 0x30) == 25 then return "Sugarscoot"
-  elseif ReadValue32(address, 0x30) == 26 then return "Wario Bike"
-  elseif ReadValue32(address, 0x30) == 27 then return "Quacker"
-  elseif ReadValue32(address, 0x30) == 28 then return "Zip Zip"
-  elseif ReadValue32(address, 0x30) == 29 then return "Shooting Star"
-  elseif ReadValue32(address, 0x30) == 30 then return "Magikruiser"
-  elseif ReadValue32(address, 0x30) == 31 then return "Sneakster"
-  elseif ReadValue32(address, 0x30) == 32 then return "Spear"
-  elseif ReadValue32(address, 0x30) == 33 then return "Jet Bubble"
-  elseif ReadValue32(address, 0x30) == 34 then return "Dolphin Dasher"
-  elseif ReadValue32(address, 0x30) == 35 then return "Phantom"
-  end
-end
-core.getVehicle = getVehicle
+package.path = GetScriptsDir() .. "MKW/MKW_Classes.lua"
+local classes = require("MKW_Classes")
 
 local function getPos()
-  local address = Pointers.getPositionPointer(0x0) -- 0x0 first player in the array, to get the most accurate, read playerindex first
-  if address == 0 then
-    return {X = 0, Y = 0, Z = 0}
-  end
-  return {X = ReadValueFloat(address, 0x68), Y = ReadValueFloat(address, 0x6C), Z = ReadValueFloat(address, 0x70)}
+  local Xpos = ReadValueFloat(classes.Player.PlayerPhysics.pos.x)
+  local Ypos = ReadValueFloat(classes.Player.PlayerPhysics.pos.y)
+  local Zpos = ReadValueFloat(classes.Player.PlayerPhysics.pos.z)
+
+  return {X = Xpos, Y = Ypos, Z = Zpos}
 end
 core.getPos = getPos
 
-local function getPosGhost()
-  local address = Pointers.getPositionPointer(0x4)
-  if address == 0 then
-    return {X = 0, Y = 0, Z = 0}
-  end
-  return {X = ReadValueFloat(address, 0x68), Y = ReadValueFloat(address, 0x6C), Z = ReadValueFloat(address, 0x70)}
-end
-core.getPosGhost = getPosGhost
-
 local function getPrevPos()
-  local address = Pointers.getPrevPositionPointer(0x0)
-  if address == 0 then
-    return {X = 0, Y = 0, Z = 0}
-  end
-  return {X = ReadValueFloat(address, 0x18), Y = ReadValueFloat(address, 0x1C), Z = ReadValueFloat(address, 0x20)}
-end
-core.getPrevPos = getPrevPos
+  local PrevXpos = classes.Player.PlayerPhysicsHolder.pos.x
+  local PrevYpos = classes.Player.PlayerPhysicsHolder.pos.y
+  local PrevZpos = classes.Player.PlayerPhysicsHolder.pos.z
 
-local function getPrevPosGhost()
-  local address = Pointers.getPrevPositionPointer(0x4)
-  if address == 0 then
-    return {X = 0, Y = 0, Z = 0}
-  end
-  return {X = ReadValueFloat(address, 0x18), Y = ReadValueFloat(address, 0x1C), Z = ReadValueFloat(address, 0x20)}
+  return {X = PrevXpos, Y = PrevYpos, Z = PrevZpos}
 end
-core.getPrevPos = getPrevPos
+core.getPrevPos = getPos
 
-local function getSpd()
-  local PrevXpos = getPrevPos().X
-  local PrevYpos = getPrevPos().Y
-  local PrevZpos = getPrevPos().Z
-  local Xpos = getPos().X
-  local Ypos = getPos().Y
-  local Zpos = getPos().Z
-  return {X = (Xpos - PrevXpos), Y = (Ypos - PrevYpos), Z = (Zpos - PrevZpos), XZ = math.sqrt(((Xpos - PrevXpos)^2) + (Zpos - PrevZpos)^2), XYZ = math.sqrt(((Xpos - PrevXpos)^2) + ((Ypos - PrevYpos)^2) + (Zpos - PrevZpos)^2)}
+local function getSpd(player)  -- classes.Player or classes.Ghost
+  local prevPos = player.PlayerPhysicsHolder.pos
+  local pos = player.PlayerPhysics.pos
+
+  spd = {}
+  spd.X = pos.x - prevPos.x
+  spd.Y = pos.y - prevPos.y
+  spd.Z = pos.z - prevPos.z
+  spd.XZ = math.sqrt((pos.x - prevPos.x) ^ 2 + (pos.z - prevPos.z) ^ 2)
+  spd.XYZ = math.sqrt((pos.x - prevPos.x) ^ 2 + (pos.y - prevPos.y) ^ 2 + (pos.z - prevPos.z) ^ 2)
+
+  return spd    
 end
 core.getSpd = getSpd
 
@@ -188,12 +49,13 @@ local function getSpdGhost()
   local Xpos = getPosGhost().X
   local Ypos = getPosGhost().Y
   local Zpos = getPosGhost().Z
+  
   return {X = (Xpos - PrevXpos), Y = (Ypos - PrevYpos), Z = (Zpos - PrevZpos), XZ = math.sqrt(((Xpos - PrevXpos)^2) + (Zpos - PrevZpos)^2), XYZ = math.sqrt(((Xpos - PrevXpos)^2) + ((Ypos - PrevYpos)^2) + (Zpos - PrevZpos)^2)}
 end
 core.getSpdGhost = getSpdGhost
 
 local function getInput()
-  local address = Pointers.getInputPointer(0x0) -- change this to 0x4 for ghost
+  local address = Pointers.getInputPointer(0x0)
   local offset = 0x8 -- too lazy to adjust the values beneath...
 
   if address == 0 then return {ABLR = 0, X = 0, Y = 0, DPAD = 0}
@@ -202,16 +64,30 @@ local function getInput()
    X = ReadValue8(address + offset + 0xC),
    Y = ReadValue8(address + offset + 0xD),
    DPAD = ReadValue8(address + offset + 0xF)}
- end
+  end
 end
 core.getInput = getInput
+
+local function getInputGhost()
+  local address = Pointers.getInputPointer(0x4)
+  local offset = 0x8 -- too lazy to adjust the values beneath...
+
+  if address == 0 then return {ABLR = 0, X = 0, Y = 0, DPAD = 0}
+  else return {
+   ABLR = ReadValue8(address + offset + 0x1),
+   X = ReadValue8(address + offset + 0xC),
+   Y = ReadValue8(address + offset + 0xD),
+   DPAD = ReadValue8(address + offset + 0xF)}
+  end
+end
+core.getInputGhost = getInputGhost
 
 local function floatHack(intVal)
   return string.unpack("f", string.pack("I4", intVal))
 end
 
 local function getFinishLine()
-  local kmpBase = Pointers.getKMPBasePointer()
+  local kmpBase = Pointers.getKmpHolder()
   local offset = ReadValue32(kmpBase, 0x24)
   local resultList = {}
   
@@ -241,7 +117,7 @@ core.PosToAngle = PosToAngle
 
 --FrameCounter in Race
 local function getFrameOfInput()
-  return ReadValue32(Pointers.getFrameOfInputAddress())
+  return ReadValue32(Pointers.getFrameOfInput())
 end
 core.getFrameOfInput = getFrameOfInput
 
@@ -260,7 +136,7 @@ core.math_atan2 = math_atan2
 
 function getQuaternion()
   local offset2 = 0xF0
-  local address2 = Pointers.getPositionPointer(0x0)
+  local address2 = Pointers.getPlayerPhysics(0x0)
   if(address2 == 0) then
     return {X = 0, Y = 0, Z = 0, W = 0}
   end
@@ -300,14 +176,6 @@ local function calculateEuler()
   return {X = (Xvalue - 90) % 360, Y = (Yvalue - 90) % 360, Z = Zvalue}
 end
 core.calculateEuler = calculateEuler
-
-local function isSinglePlayer()
-  local address = Pointers.getPositionPointer(0x4)
-  if address == 0 then return true
-  else return false
-  end
-end
-core.isSinglePlayer = isSinglePlayer
 
 local function direction(a, b)
 	if a > 0 and b > 0 then return (270 + (math.atan(math.abs(b)/math.abs(a)) * 180 / math.pi))
@@ -464,54 +332,36 @@ end
 end
 core.exactFinish = exactFinish
 
-local function NormalAccel(spd)
-	base = Pointers.getPlayerPointer()
-	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
-	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
-	local p1 = ReadValueFloat(stats, 0x48) -- drift acceleration T1
-	local d0 = ReadValueFloat(stats, 0x40) -- drift acceleration A0
-	local d1 = ReadValueFloat(stats, 0x44) -- drift acceleration A1
-	local t1 = ReadValueFloat(stats, 0x34) -- standard acceleration T1
-	local t2 = ReadValueFloat(stats, 0x38) -- standard acceleration T2
-	local t3 = ReadValueFloat(stats, 0x3C) -- standard acceleration T3
-	local a0 = ReadValueFloat(stats, 0x24) -- standard acceleration A0
-	local a1 = ReadValueFloat(stats, 0x28) -- standard acceleration A1
-	local a2 = ReadValueFloat(stats, 0x2C) -- standard acceleration A2
-	local a3 = ReadValueFloat(stats, 0x30) -- standard acceleration A3
-	
-	if speed > 0 and speed <= t1*spd then return ((a1-a0)/(t1*spd)*speed)+a0
-	elseif speed > t1*spd and speed <= t2*spd then return ((a2-a1)/((t2-t1)*spd)*speed)+(a1-((a2-a1)*t1)/(t2-t1))
-	elseif speed > t2*spd and speed <= t3*spd then return ((a3-a2)/((t3-t2)*spd)*speed)+(a2-((a3-a2)*t2)/(t3-t2))
-	elseif speed > t3*spd and speed <= spd-a3 then return a3
-	elseif speed > spd-a3 and speed <= spd then return spd-speed
-	else return 0
-	end
+local function NormalAccel(limit)  -- accel is calculated through softSpeedLimit, which we're simulating
+    local stats = classes.Player.PlayerStats.acceleration
+    local speed = classes.Player.PlayerSub10.speed
+    local ratio = speed/limit
+    
+    if 0.0 > ratio then return 1.0 end
+    
+    if ratio < stats.t1 then return (stats.a0 + ((stats.a1 - stats.a0) / stats.t1) * ratio) end
+    if ratio < stats.t2 then return (stats.a1 + ((stats.a2 - stats.a1) / (stats.t2 - stats.t1)) * (ratio - stats.t1)) end
+    if ratio < stats.t3 then return (stats.a2 + ((stats.a3 - stats.a2) / (stats.t3 - stats.t2)) * (ratio - stats.t2)) end
+    if ratio >= stats.t3 then return stats.a3 end
+    
+    return 0.0
 end
 core.NormalAccel = NormalAccel
 
-local function DriftAccel(spd)
-	base = Pointers.getPlayerPointer()
-	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
-	local p1 = ReadValueFloat(stats, 0x48) -- drift acceleration T1
-	local d0 = ReadValueFloat(stats, 0x40) -- drift acceleration A0
-	local d1 = ReadValueFloat(stats, 0x44) -- drift acceleration A1
+local function DriftAccel(limit)
+	local stats = classes.Player.PlayerStats.acceleration
+    local speed = classes.Player.PlayerSub10.speed
 	
-	if speed > 0 and speed <= p1*spd then return ((d1-d0)/(p1*spd)*speed)+d0
-	elseif speed > p1*spd and speed <= spd-d1 then return d1
-	elseif speed > spd-d1 and speed <= spd then return spd-speed
-	else return 0
+	if speed > 0 and speed <= stats.t1*spd then return ((stats.a2-stats.a1)/(p1*spd)*speed)+stats.a1
+	elseif speed > stats.t1*spd and speed <= spd-stats.a2 then return stats.a2
+	elseif speed > spd-stats.a2 and speed <= spd then return spd-speed
+	else return 0.0
 	end
 end
 core.DriftAccel = DriftAccel
 
-local function AccelText(spd)
-	base = Pointers.getPlayerPointer()
-	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
-end
-core.AccelText = AccelText
-
 local function detectAction()
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
 	local bspeed = ReadValueFloat(stats, 0x18) -- base speed
 	local maxspeed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x18) -- current max vehicle speed -- from RMCE01.ini
@@ -574,7 +424,7 @@ end
 core.BoostAccel = BoostAccel
 
 local function AccelRates()
-	base = Pointers.getPlayerPointer()
+	base = Pointers.getPlayerBasePointer()
 	local stats = GetPointerNormal(base, 0x14, 0x14, 0x0)
 	local speed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x20) -- current vehicle speed -- from RMCE01.ini
 	local maxspeed = ReadValueFloat(base, 0xC, 0x10, 0x0, 0x10, 0x10, 0x18) -- current max vehicle speed -- from RMCE01.ini
@@ -639,12 +489,12 @@ local function translateKCL()
 		elseif collisionValue1 == 0x5 then collisionType1 = "SlipRoad"
 		elseif collisionValue1 == 0x6 then collisionType1 = "BoostPad"
 		elseif collisionValue1 == 0x7 then collisionType1 = "B-Ramp"
-		elseif collisionValue1 == 0x8 then collisionType1 = "JumpPad "
+		elseif collisionValue1 == 0x8 then collisionType1 = "JumpPad"
 		elseif collisionValue1 == 0x9 then collisionType1 = "ItemRoad"
 		elseif collisionValue1 == 0xA then collisionType1 = "SoldFall"
 		elseif collisionValue1 == 0xB then collisionType1 = "MovWater" --KC River
 		elseif collisionValue1 == 0xC then collisionType1 = "Wall"
-		elseif collisionValue1 == 0xD then collisionType1 = "InvWall "
+		elseif collisionValue1 == 0xD then collisionType1 = "InvWall"
 		elseif collisionValue1 == 0xE then collisionType1 = "ItemWall"
 		elseif collisionValue1 == 0xF then collisionType1 = "Wall"
 		elseif collisionValue1 == 0x10 then collisionType1 = "FallBoun"
@@ -708,5 +558,133 @@ local function translateKCL()
 	return {A1 = writeAddress1, A2 = writeAddress2, T1 = collisionType1, T2 = collisionType2}
 end
 core.translateKCL = translateKCL
+
+local function getCourseSlot()
+  local address = Pointers.getRacedata()
+  if ReadValue32(address, 0xb68) == 0 then return "MC"
+  elseif ReadValue32(address, 0xb68) == 1 then return "MMM"
+  elseif ReadValue32(address, 0xb68) == 2 then return "MG"
+  elseif ReadValue32(address, 0xb68) == 3 then return "GV"
+  elseif ReadValue32(address, 0xb68) == 4 then return "TF"
+  elseif ReadValue32(address, 0xb68) == 5 then return "CM"
+  elseif ReadValue32(address, 0xb68) == 6 then return "DKS"
+  elseif ReadValue32(address, 0xb68) == 7 then return "WGM"
+  elseif ReadValue32(address, 0xb68) == 8 then return "LC"
+  elseif ReadValue32(address, 0xb68) == 9 then return "DC"
+  elseif ReadValue32(address, 0xb68) == 10 then return "MH"
+  elseif ReadValue32(address, 0xb68) == 11 then return "MT"
+  elseif ReadValue32(address, 0xb68) == 12 then return "BC"
+  elseif ReadValue32(address, 0xb68) == 13 then return "RR"
+  elseif ReadValue32(address, 0xb68) == 14 then return "DDR"
+  elseif ReadValue32(address, 0xb68) == 15 then return "KC"
+  elseif ReadValue32(address, 0xb68) == 16 then return "rPB"
+  elseif ReadValue32(address, 0xb68) == 17 then return "rMC"
+  elseif ReadValue32(address, 0xb68) == 18 then return "rWS"
+  elseif ReadValue32(address, 0xb68) == 19 then return "rDKM"
+  elseif ReadValue32(address, 0xb68) == 20 then return "rYF"
+  elseif ReadValue32(address, 0xb68) == 21 then return "rDS"
+  elseif ReadValue32(address, 0xb68) == 22 then return "rPG"
+  elseif ReadValue32(address, 0xb68) == 23 then return "rDS"
+  elseif ReadValue32(address, 0xb68) == 24 then return "rMC3"
+  elseif ReadValue32(address, 0xb68) == 25 then return "rGV2"
+  elseif ReadValue32(address, 0xb68) == 26 then return "rMR"
+  elseif ReadValue32(address, 0xb68) == 27 then return "rSL"
+  elseif ReadValue32(address, 0xb68) == 28 then return "rBC"
+  elseif ReadValue32(address, 0xb68) == 29 then return "rDKJP"
+  elseif ReadValue32(address, 0xb68) == 30 then return "rBC3"
+  elseif ReadValue32(address, 0xb68) == 31 then return "rSGB"
+  end
+end
+core.getCourseSlot = getCourseSlot
+
+local function getCharacter()
+  local address = Pointers.getRacedata()
+  if ReadValue32(address, 0x34) == 0 then return "Mario"
+  elseif ReadValue32(address, 0x34) == 1 then return "Baby Peach"
+  elseif ReadValue32(address, 0x34) == 2 then return "Waluigi"
+  elseif ReadValue32(address, 0x34) == 3 then return "Bowser"
+  elseif ReadValue32(address, 0x34) == 4 then return "Baby Daisy"
+  elseif ReadValue32(address, 0x34) == 5 then return "Dry Bones"
+  elseif ReadValue32(address, 0x34) == 6 then return "Baby Mario"
+  elseif ReadValue32(address, 0x34) == 7 then return "Luigi"
+  elseif ReadValue32(address, 0x34) == 8 then return "Toad"
+  elseif ReadValue32(address, 0x34) == 9 then return "Donkey Kong"
+  elseif ReadValue32(address, 0x34) == 10 then return "Yoshi"
+  elseif ReadValue32(address, 0x34) == 11 then return "Wario"
+  elseif ReadValue32(address, 0x34) == 12 then return "Baby Luigi"
+  elseif ReadValue32(address, 0x34) == 13 then return "Toadette"
+  elseif ReadValue32(address, 0x34) == 14 then return "Koopa Troopa"
+  elseif ReadValue32(address, 0x34) == 15 then return "Daisy"
+  elseif ReadValue32(address, 0x34) == 16 then return "Peach"
+  elseif ReadValue32(address, 0x34) == 17 then return "Birdo"
+  elseif ReadValue32(address, 0x34) == 18 then return "Diddy Kong"
+  elseif ReadValue32(address, 0x34) == 19 then return "King Boo"
+  elseif ReadValue32(address, 0x34) == 20 then return "Bowser Jr."
+  elseif ReadValue32(address, 0x34) == 21 then return "Dry Bowser"
+  elseif ReadValue32(address, 0x34) == 22 then return "Funky Kong"
+  elseif ReadValue32(address, 0x34) == 23 then return "Rosalina"
+  elseif ReadValue32(address, 0x34) == 24 then return "Mii Outfit A (M | Light)"
+  elseif ReadValue32(address, 0x34) == 25 then return "Mii Outfit A (F | Light)"
+  elseif ReadValue32(address, 0x34) == 26 then return "Mii Outfit B (M | Light)"
+  elseif ReadValue32(address, 0x34) == 27 then return "Mii Outfit B (F | Light)"
+  elseif ReadValue32(address, 0x34) == 28 then return "Mii Outfit C (M | Light)"
+  elseif ReadValue32(address, 0x34) == 29 then return "Mii Outfit C (F | Light)"
+  elseif ReadValue32(address, 0x34) == 30 then return "Mii Outfit A (M | Medium)"
+  elseif ReadValue32(address, 0x34) == 31 then return "Mii Outfit A (F | Medium)"
+  elseif ReadValue32(address, 0x34) == 32 then return "Mii Outfit B (M | Medium)"
+  elseif ReadValue32(address, 0x34) == 33 then return "Mii Outfit B (F | Medium)"
+  elseif ReadValue32(address, 0x34) == 34 then return "Mii Outfit C (M | Medium)"
+  elseif ReadValue32(address, 0x34) == 35 then return "Mii Outfit C (F | Medium)"
+  elseif ReadValue32(address, 0x34) == 36 then return "Mii Outfit A (M | Heavy)"
+  elseif ReadValue32(address, 0x34) == 37 then return "Mii Outfit A (F | Heavy)"
+  elseif ReadValue32(address, 0x34) == 38 then return "Mii Outfit B (M | Heavy)"
+  elseif ReadValue32(address, 0x34) == 39 then return "Mii Outfit B (F | Heavy)"
+  elseif ReadValue32(address, 0x34) == 40 then return "Mii Outfit C (M | Heavy)"
+  elseif ReadValue32(address, 0x34) == 41 then return "Mii Outfit C (F | Heavy)"
+  end
+end
+core.getCharacter = getCharacter
+
+local function getVehicle()
+  local address = Pointers.getRacedata()
+  if ReadValue32(address, 0x30) == 0 then return "Standard Kart S"
+  elseif ReadValue32(address, 0x30) == 1 then return "Standard Kart M"
+  elseif ReadValue32(address, 0x30) == 2 then return "Standard Kart L"
+  elseif ReadValue32(address, 0x30) == 3 then return "Booster Seat"
+  elseif ReadValue32(address, 0x30) == 4 then return "Classic Dragster"
+  elseif ReadValue32(address, 0x30) == 5 then return "Offroader"
+  elseif ReadValue32(address, 0x30) == 6 then return "Mini Beast"
+  elseif ReadValue32(address, 0x30) == 7 then return "Wild Wing"
+  elseif ReadValue32(address, 0x30) == 8 then return "Flame Flyer"
+  elseif ReadValue32(address, 0x30) == 9 then return "Cheep Charger"
+  elseif ReadValue32(address, 0x30) == 10 then return "Super Blooper"
+  elseif ReadValue32(address, 0x30) == 11 then return "Piranha Prowler"
+  elseif ReadValue32(address, 0x30) == 12 then return "Tiny Titan"
+  elseif ReadValue32(address, 0x30) == 13 then return "Daytripper"
+  elseif ReadValue32(address, 0x30) == 14 then return "Jetsetter"
+  elseif ReadValue32(address, 0x30) == 15 then return "Blue Falcon"
+  elseif ReadValue32(address, 0x30) == 16 then return "Sprinter"
+  elseif ReadValue32(address, 0x30) == 17 then return "Honeycoupe"
+  elseif ReadValue32(address, 0x30) == 18 then return "Standard Bike S"
+  elseif ReadValue32(address, 0x30) == 19 then return "Standard Bike M"
+  elseif ReadValue32(address, 0x30) == 20 then return "Standard Bike L"
+  elseif ReadValue32(address, 0x30) == 21 then return "Bullet Bike"
+  elseif ReadValue32(address, 0x30) == 22 then return "Mach Bike"
+  elseif ReadValue32(address, 0x30) == 23 then return "Flame Runner"
+  elseif ReadValue32(address, 0x30) == 24 then return "Bit Bike"
+  elseif ReadValue32(address, 0x30) == 25 then return "Sugarscoot"
+  elseif ReadValue32(address, 0x30) == 26 then return "Wario Bike"
+  elseif ReadValue32(address, 0x30) == 27 then return "Quacker"
+  elseif ReadValue32(address, 0x30) == 28 then return "Zip Zip"
+  elseif ReadValue32(address, 0x30) == 29 then return "Shooting Star"
+  elseif ReadValue32(address, 0x30) == 30 then return "Magikruiser"
+  elseif ReadValue32(address, 0x30) == 31 then return "Sneakster"
+  elseif ReadValue32(address, 0x30) == 32 then return "Spear"
+  elseif ReadValue32(address, 0x30) == 33 then return "Jet Bubble"
+  elseif ReadValue32(address, 0x30) == 34 then return "Dolphin Dasher"
+  elseif ReadValue32(address, 0x30) == 35 then return "Phantom"
+  end
+end
+core.getVehicle = getVehicle
 
 return core
